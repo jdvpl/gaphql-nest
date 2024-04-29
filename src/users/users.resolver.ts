@@ -1,6 +1,7 @@
-import { Args, Float, Int, Query, Resolver } from '@nestjs/graphql';
+import { Args, Float, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User } from './entity/todo.entity';
 import { UsersService } from './users.service';
+import { CreateUserInput } from './dto/inputs/create-todo.input';
 
 @Resolver()
 export class UsersResolver {
@@ -12,9 +13,14 @@ export class UsersResolver {
   getAllUsers(): User[] {
     return this.userService.findAll();
   }
-  @Query(() => Float, { name: 'findOneUser' })
-  findOne(): number {
-    return Math.floor(Math.random() * 100);
+  @Query(() => User, { name: 'findOneUser' })
+  findOne(@Args('id', { type: () => Int }) id: number): User {
+    return this.userService.findaOne(id);
+  }
+
+  @Mutation(() => User, { name: 'createUser' })
+  createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+    return this.userService.create(createUserInput);
   }
 
   @Query(() => Float, { name: 'updateUser' })

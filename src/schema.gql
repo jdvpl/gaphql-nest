@@ -18,7 +18,17 @@ scalar DateTime
 type Query {
   """Retorna Users los Users"""
   getAllUsers: [User!]!
-  findOneUser: Float!
+  findOneUser(id: Int!): User!
   updateUser(to: Int): Float!
   removeUser(to: Int): Float!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+}
+
+input CreateUserInput {
+  """Name of user"""
+  name: String!
+  lastName: String!
 }
